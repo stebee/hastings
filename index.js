@@ -1,5 +1,16 @@
-var express = require('express');
-var app = express();
+if (!process.env.SLACK_TOKEN)
+{
+    var env = require('node-env-file');
+    env(__dirname + '/.env');
+}
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const qs = require('querystring');
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
 
