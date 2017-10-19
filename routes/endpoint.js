@@ -1,3 +1,7 @@
+const fs = require('fs');
+const path = require('path');
+const async = require('async');
+
 let _root = null;
 let _commands = [ ];
 
@@ -22,12 +26,12 @@ function handleSlashCommand(req, res, next) {
         "trigger_id":"257742302773.256539543732.419c6992ceb1b3e1441e527f779c5849"
     }*/
 
-    let command = req.body.command.substr(1);
+    let command = req.body.command.substr(1).toLowerCase();
     let handled = false;
     for (let i = 0; i < _commands.length && !handled; i++) {
-        if (_commands.command == command) {
+        if (_commands[i].command == command) {
             handled = true;
-            _commands.handler(req.body, (err, response) => {
+            _commands[i].handler(req.body, (err, response) => {
                 if (err) {
                     console.log('Slash command error "' + err + '" for request ' + JSON.stringify(req.body));
                     res.send("I'm afraid something went wrong: " + err);
@@ -60,7 +64,10 @@ function registerCommand(req) {
 module.exports = (app, root) => {
     _root = root;
 
-    registerCommand(require('./slashCreatePuzzle'));
+    fs.readdirSync(__dirname).forEach((filename) => {
+        if (filename.substr(0, 5) == 'slash' && filename.substr(-3, 3) == '.js')
+            registerCommand(require('./' + filename.substr(0, filename.length - 3)));
+    });
 
     app.all(_root, handleSlashCommand);
 };
