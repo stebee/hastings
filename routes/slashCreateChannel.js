@@ -29,7 +29,12 @@ function doCreateChannel(payload, callback) {
         if (err)
             callback(null, "An error occurred: " + err);
         else {
-            slack.sayInChannel('#whatsnew', 'I just created #' + channel + ': "' + purpose + '". Join us!', (err) => {
+            let message = 'I just created #' + channel;
+            if (purpose)
+                message += ': "' + purpose + '"';
+            message += '. Join us!';
+
+            slack.sayInChannel('#whatsnew', message, (err) => {
                 if (err)
                     callback(null, "An error occurred: " + err);
                 else
