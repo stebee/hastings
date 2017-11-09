@@ -46,6 +46,7 @@ function doEndChannel(payload, callback) {
 module.exports = () => {
     return [
         { command: 'endchannel', handler: doEndChannel },
+        { command: 'eom', handler: doEndChannel },
         { command: 'cancelendchannel', handler: doCancelEndChannel }
     ];
 };
