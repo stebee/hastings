@@ -64,7 +64,7 @@ module.exports = {
             text: message,
             link_names: true,
             parse: true,
-            as_user: false
+            as_user: true
         }, (err, response) => {
             if (err)
                 callback(err);
