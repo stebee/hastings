@@ -23,5 +23,5 @@ function doWakeUp(payload, callback) {
 }
 
 module.exports = () => {
-    return { command: 'hellojoshua', handler: doWakeUp };
+    return { command: 'checkapi', handler: doWakeUp };
 };
