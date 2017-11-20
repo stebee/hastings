@@ -19,7 +19,7 @@ const puzzles = require('../utils/puzzles');
 
 
 function doWakeUp(payload, callback) {
-    callback(null, "GREETINGS PROFESSOR FALKEN.");
+    callback(null, "Your behavior is continually unexpected.");
 }
 
 module.exports = () => {
