@@ -19,9 +19,9 @@ const puzzles = require('../utils/puzzles');
 
 
 function doWakeUp(payload, callback) {
-    callback(null, "I'm awake, I'm awake!");
+    callback(null, "GREETINGS PROFESSOR FALKEN.");
 }
 
 module.exports = () => {
-    return { command: 'wakeup', handler: doWakeUp };
+    return { command: 'hellojoshua', handler: doWakeUp };
 };
