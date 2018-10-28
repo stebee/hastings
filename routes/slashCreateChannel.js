@@ -34,7 +34,7 @@ function doCreateChannel(payload, callback) {
                 message += ': "' + purpose + '"';
             message += '. Join us!';
 
-            slack.sayInChannel('#-whatsnew', message, (err) => {
+            slack.sayInChannel('#whatsnew', message, (err) => {
                 if (err)
                 {
                     console.log(JSON.stringify(err));
