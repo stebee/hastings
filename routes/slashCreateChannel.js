@@ -36,7 +36,7 @@ function doCreateChannel(payload, callback) {
 
             slack.sayInChannel('#-whatsnew', message, (err) => {
                 if (err)
-                    callback(null, "An error occurred: " + err);
+                    callback(null, "An error occurred: " + JSON.stringify(err));
                 else
                     callback(null, response);
             });
