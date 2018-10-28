@@ -21,26 +21,33 @@ function doEndChannel(payload, callback) {
     if (channel.charAt(0) != '#')
         channel = '#' + channel;
 
-    slack.sayInChannel(channel, 'This channel will be archived in 60 seconds. Say /cancelendchannel to grant a stay of execution.', (err, channelId) => {
-        if (err)
-            callback(null, "An error occurred: " + err);
-        else {
-            _cancellingChannel = { name: channel, id: channelId };
-            setTimeout(() => {
-                if (_cancellingChannel) {
-                    slack.archiveChannel(_cancellingChannel.id, (err) => {
-                        if (err) {
-                            console.log(JSON.stringify(_cancellingChannel));
-                            console.log(JSON.stringify(err));
-                        }
-                        // Do nothing, we've already triggered the callback!
-                        _cancellingChannel = null;
-                    });
-                }
-            }, 60000);
-        }
-        callback(null, 'Channel ' + channel + ' marked for termination in 60 seconds.');
-    });
+    if (_cancellingChannel)
+    {
+        callback(null, "Sorry, I'm not a very smart robot. I only know how to cancel one channel at a time, and I'm already about to cancel " + _cancellingChannel.name + ".");
+    }
+    else
+    {
+        slack.sayInChannel(channel, 'This channel will be archived in 60 seconds. Say /cancelendchannel to grant a stay of execution.', (err, channelId) => {
+            if (err)
+                callback(null, "An error occurred: " + err);
+            else {
+                _cancellingChannel = { name: channel, id: channelId };
+                setTimeout(() => {
+                    if (_cancellingChannel) {
+                        slack.archiveChannel(_cancellingChannel.id, (err) => {
+                            if (err) {
+                                console.log(JSON.stringify(_cancellingChannel));
+                                console.log(JSON.stringify(err));
+                            }
+                            // Do nothing, we've already triggered the callback!
+                            _cancellingChannel = null;
+                        });
+                    }
+                }, 60000);
+            }
+            callback(null, 'Channel ' + channel + ' marked for termination in 60 seconds.');
+        });
+    }
 }
 
 module.exports = () => {
