@@ -46,6 +46,12 @@ function doWakeUp(payload, callback) {
                 return callback(err, JSON.stringify(response));
             });
         }
+        else if (command == "archive")
+        {
+            slack.archiveChannel(payload.channel_id, payload.user_id, (err, response) => {
+                return callback(err, JSON.stringify(response));
+            });
+        }
     }
     else
         callback(null, "Your behavior is continually unexpected.");

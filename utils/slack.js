@@ -37,15 +37,48 @@ module.exports = {
         });
     },
 
-    archiveChannel(id, callback) {
-        _api.channels.archive({ channel: id }, (err, response) => {
-            if (err)
-                callback(err);
-            else if (!response.ok)
-                callback(response.error);
-            else
-                callback(null);
-        });
+    archiveChannel(id, kicker, callback) {
+        if (typeof kicker == 'function')
+        {
+            callback = kicker;
+            kicker = null;
+        }
+
+        async.waterfall([
+            (andThen) => {
+                if (kicker)
+                    module.exports.listMembers(id, andThen);
+                else
+                    andThen(null, null);
+            },
+
+            (toKick, andThen) => {
+                if (!toKick)
+                    return andThen(null);
+
+                async.each(toKick, (victim, next) => {
+                    module.exports.kickMember(victim, channelid, next);
+                }, andThen);
+            },
+
+            (andThen) => {
+                if (kicker)
+                    module.exports.leave(channelid, andThen);
+                else
+                    andThen(null);
+            },
+
+            (andThen) => {
+                _api.channels.archive({ channel: id }, (err, response) => {
+                    if (err)
+                        andThen(err);
+                    else if (!response.ok)
+                        andThen(response.error);
+                    else
+                        andThen(null);
+                });
+            }
+        ], callback);
     },
 
     createChannel(name, purpose, callback) {
