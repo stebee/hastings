@@ -34,7 +34,7 @@ function doEndChannel(payload, callback) {
                 _cancellingChannel = { name: channel, id: channelId };
                 setTimeout(() => {
                     if (_cancellingChannel) {
-                        slack.archiveChannel(_cancellingChannel.id, (err) => {
+                        slack.archiveChannel(_cancellingChannel.id, payload.user_id, (err) => {
                             if (err) {
                                 console.log(JSON.stringify(_cancellingChannel));
                                 console.log(JSON.stringify(err));
