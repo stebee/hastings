@@ -24,7 +24,7 @@ module.exports = {
             else
                 callback(null);
         });
-=    },
+    },
 
     kickMember(userid, channelid, callback) {
         _api.channels.kick({ channel: channelid, user: userid }, (err, response) => {
