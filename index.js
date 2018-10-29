@@ -1,4 +1,4 @@
-if (!process.env.SLACK_TOKEN)
+if (!process.env.SLACK_ACCESS_TOKEN)
 {
     var env = require('node-env-file');
     env(__dirname + '/.env');
