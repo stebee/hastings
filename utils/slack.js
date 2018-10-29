@@ -15,7 +15,7 @@ module.exports = {
         });
     },
 
-    leave(channelid, callback) {
+    leave(id, callback) {
         _api.channels.leave({ channel: id }, (err, response) => {
             if (err)
                 callback(err);
