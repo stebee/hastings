@@ -19,11 +19,33 @@ const puzzles = require('../utils/puzzles');
 
 
 function doWakeUp(payload, callback) {
-    if (payload.text == "trymembers")
+    var command = null;
+    var arg = null;
+
+    var parts = payload.text.split(' ');
+    if (parts.length > 1)
     {
-        slack.listMembers(payload.channel_id, (err, response) => {
-            return callback(err, JSON.stringify(response));
-        });
+        if (parts[0] == "do")
+        {
+            command = parts[1].toLowerCase();
+            arg = parts[2];
+        }
+    }
+
+    if (command)
+    {
+        if (command == "listmembers")
+        {
+            slack.listMembers(payload.channel_id, (err, response) => {
+                return callback(err, JSON.stringify(response));
+            });
+        }
+        else if (command == "kickmember")
+        {
+            slack.kickMember(arg, payload.channel_id, (err, response) => {
+                return callback(err, JSON.stringify(response));
+            });
+        }
     }
     else
         callback(null, "Your behavior is continually unexpected.");

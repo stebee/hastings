@@ -11,7 +11,18 @@ module.exports = {
             else if (!response.ok)
                 callback(response.error);
             else
-                callback(null, response);
+                callback(null, response.members);
+        });
+    },
+
+    kickMember(userid, channelid, callback) {
+        _api.conversations.kick({ channel: channelid, user: userid }, (err, response) => {
+            if (err)
+                callback(err);
+            else if (!response.ok)
+                callback(response.error);
+            else
+                callback(null);
         });
     },
 
