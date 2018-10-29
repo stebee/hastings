@@ -66,7 +66,7 @@ module.exports = {
 
             (andThen) => {
                 if (kicker)
-                    module.exports.leave(channelid, andThen);
+                    module.exports.leave(id, andThen);
                 else
                     andThen(null);
             },
