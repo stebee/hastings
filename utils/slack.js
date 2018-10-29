@@ -4,9 +4,19 @@ const async = require('async');
 const _api = new Slack({ token: process.env.SLACK_ACCESS_TOKEN });
 
 module.exports = {
+    listMembers(id, callback) {
+        _api.conversations.members({ channel: id }, (err, response) => {
+            if (err)
+                callback(err);
+            else if (!response.ok)
+                callback(response.error);
+            else
+                callback(null, response);
+        });
+    },
+
     archiveChannel(id, callback) {
         _api.channels.archive({ channel: id }, (err, response) => {
-            console.log(JSON.stringify(response));
             if (err)
                 callback(err);
             else if (!response.ok)

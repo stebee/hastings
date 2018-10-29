@@ -4,7 +4,7 @@ const puzzles = require('../utils/puzzles');
 
 /* payload looks like this:
  {
-     "token":"K9NoPSqSzXdjcNmD632wc6Wq",
+     "token":"SLACK_VERIFICATION_TOKEN",
      "team_id":"T7JFVFZMJ",
      "team_domain":"brinyshark",
      "channel_id":"C7JETRL4T",
@@ -19,7 +19,14 @@ const puzzles = require('../utils/puzzles');
 
 
 function doWakeUp(payload, callback) {
-    callback(null, "Your behavior is continually unexpected.");
+    if (payload.text == "trymembers")
+    {
+        slack.listMembers(payload.channel_id, (err, response) => {
+            return callback(err, JSON.stringify(response));
+        });
+    }
+    else
+        callback(null, "Your behavior is continually unexpected.");
 }
 
 module.exports = () => {
