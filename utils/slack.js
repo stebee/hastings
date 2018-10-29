@@ -5,7 +5,7 @@ const _api = new Slack({ token: process.env.SLACK_ACCESS_TOKEN });
 
 module.exports = {
     listMembers(id, callback) {
-        _api.conversations.members({ channel: id }, (err, response) => {
+        _api.channels.members({ channel: id }, (err, response) => {
             if (err)
                 callback(err);
             else if (!response.ok)
@@ -15,8 +15,19 @@ module.exports = {
         });
     },
 
+    leave(channelid, callback) {
+        _api.channels.leave({ channel: id }, (err, response) => {
+            if (err)
+                callback(err);
+            else if (!response.ok)
+                callback(response.error);
+            else
+                callback(null);
+        });
+=    },
+
     kickMember(userid, channelid, callback) {
-        _api.conversations.kick({ channel: channelid, user: userid }, (err, response) => {
+        _api.channels.kick({ channel: channelid, user: userid }, (err, response) => {
             if (err)
                 callback(err);
             else if (!response.ok)
