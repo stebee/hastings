@@ -57,7 +57,10 @@ module.exports = {
                     return andThen(null);
 
                 async.each(toKick, (victim, next) => {
-                    module.exports.kickMember(victim, id, next);
+                    if (victim == kicker)
+                        next(null);
+                    else
+                        module.exports.kickMember(victim, id, next);
                 }, andThen);
             },
 
